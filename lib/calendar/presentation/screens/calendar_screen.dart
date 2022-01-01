@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:wallet_app/calendar/presentation/chosen_date_popup.dart';
+import 'package:wallet_app/calendar/presentation/screens/chosen_date_popup.dart';
 
 class CalendarScreen extends StatelessWidget {
   const CalendarScreen({Key? key}) : super(key: key);
