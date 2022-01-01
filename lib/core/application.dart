@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:wallet_app/calendar/calendar_screen.dart';
+import 'package:wallet_app/calendar/presentation/calendar_screen.dart';
 
 class Application extends StatelessWidget {
   const Application({Key? key}) : super(key: key);
