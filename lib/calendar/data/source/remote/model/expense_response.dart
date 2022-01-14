@@ -1,3 +1,4 @@
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'expense_response.g.dart';
@@ -5,11 +6,11 @@ part 'expense_response.g.dart';
 @JsonSerializable()
 class ExpenseResponse {
   @JsonKey(name: 'category')
-  final String? category;
+  final String? categoryName;
   @JsonKey(name: 'amount')
   final double? amount;
 
-  ExpenseResponse(this.category, this.amount);
+  ExpenseResponse(this.categoryName, this.amount);
 
   factory ExpenseResponse.fromJson(Map<String, dynamic> json) =>
       _$ExpenseResponseFromJson(json);

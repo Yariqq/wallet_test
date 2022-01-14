@@ -8,7 +8,7 @@ class ExpenseMapper extends Mapper<Expense, ExpenseResponse> {
   @override
   Expense mapFromBean(ExpenseResponse src) {
     return Expense(
-      categoryName: src.category ?? '',
+      categoryName: src.categoryName ?? '',
       amount: src.amount ?? 0.0,
     );
   }

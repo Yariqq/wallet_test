@@ -14,6 +14,6 @@ ExpenseResponse _$ExpenseResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ExpenseResponseToJson(ExpenseResponse instance) =>
     <String, dynamic>{
-      'category': instance.category,
+      'category': instance.categoryName,
       'amount': instance.amount,
     };

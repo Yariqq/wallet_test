@@ -1,6 +1,6 @@
 
-import 'package:wallet_app/calendar/domain/model/expense.dart';
+import 'package:wallet_app/calendar/domain/model/total_day_expenses.dart';
 
 abstract class ExpensesRepository {
-  Future<List<Expense>> getOneDayExpenses();
+  Future<TotalDayExpenses> getOneDayExpenses();
 }

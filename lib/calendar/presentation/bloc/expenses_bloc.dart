@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:wallet_app/calendar/domain/model/expense.dart';
+import 'package:wallet_app/calendar/domain/model/total_day_expenses.dart';
 import 'package:wallet_app/calendar/domain/usecase/get_one_day_expenses_usecase.dart';
 import 'package:wallet_app/core/blocs/bloc_utils.dart';
 
@@ -8,14 +8,14 @@ class ExpensesBloc extends Bloc<BaseEvent, ExpensesState> {
 
   ExpensesBloc(this._getOneDayExpensesUseCase)
       : super(ExpensesState(
-            data: [Expense.empty()], eventState: UnknownEventState()));
+            data: TotalDayExpenses.empty(), eventState: UnknownEventState()));
 
   @override
   Stream<ExpensesState> mapEventToState(BaseEvent event) async* {
     if (event is FetchDataEvent) {
       try {
         yield ExpensesState(
-          data: [Expense.empty()],
+          data: TotalDayExpenses.empty(),
           eventState: LoadingEventState(),
         );
 
@@ -43,8 +43,8 @@ class ErrorEventState extends BaseEventState {
   ErrorEventState(this.error);
 }
 
-class ExpensesState extends BaseState<List<Expense>> {
+class ExpensesState extends BaseState<TotalDayExpenses> {
   ExpensesState(
-      {required List<Expense> data, required BaseEventState eventState})
+      {required TotalDayExpenses data, required BaseEventState eventState})
       : super(data, eventState);
 }

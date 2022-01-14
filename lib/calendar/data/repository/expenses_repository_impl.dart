@@ -1,18 +1,21 @@
 import 'package:wallet_app/calendar/data/source/expenses_data_source.dart';
-import 'package:wallet_app/calendar/data/source/remote/model/expense_response.dart';
-import 'package:wallet_app/calendar/domain/model/expense.dart';
+import 'package:wallet_app/calendar/data/source/remote/model/total_day_expenses_response.dart';
+import 'package:wallet_app/calendar/domain/model/total_day_expenses.dart';
 import 'package:wallet_app/calendar/domain/repository/expenses_repository.dart';
 import 'package:wallet_app/core/mappers/mapper.dart';
 
 class ExpensesRepositoryImpl extends ExpensesRepository {
-  final Mapper<Expense, ExpenseResponse> _expensesMapper;
+  final Mapper<TotalDayExpenses, TotalDayExpensesResponse>
+  _totalDayExpensesMapper;
   final ExpensesDataSource _expensesDataSource;
 
-  ExpensesRepositoryImpl(this._expensesMapper, this._expensesDataSource);
+  ExpensesRepositoryImpl(this._totalDayExpensesMapper,
+      this._expensesDataSource);
 
   @override
-  Future<List<Expense>> getOneDayExpenses() {
-    return _expensesDataSource.getExpenses().then(
-        (list) => list.map((src) => _expensesMapper.mapFromBean(src)).toList());
-  }
+  Future<TotalDayExpenses> getOneDayExpenses() {
+    return _expensesDataSource
+        .getExpenses()
+        .then((response) => _totalDayExpensesMapper.mapFromBean(response));
+    }
 }
