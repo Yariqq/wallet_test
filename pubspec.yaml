@@ -36,3 +36,4 @@ flutter:
 
   assets:
     - assets/requests/expenses_body.json
+    - assets/requests/categories_body.json

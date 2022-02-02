@@ -3,4 +3,6 @@ import 'package:wallet_app/calendar/data/source/remote/model/total_day_expenses_
 
 abstract class ExpensesDataSource {
   Future<TotalDayExpensesResponse> getExpenses();
+
+  Future<List<String>> getCategories();
 }

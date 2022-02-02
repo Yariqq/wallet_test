@@ -18,4 +18,9 @@ class ExpensesRepositoryImpl extends ExpensesRepository {
         .getExpenses()
         .then((response) => _totalDayExpensesMapper.mapFromBean(response));
     }
+
+  @override
+  Future<List<String>> getAvailableCategories() {
+    return _expensesDataSource.getCategories();
+  }
 }

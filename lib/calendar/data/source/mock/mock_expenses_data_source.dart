@@ -15,4 +15,13 @@ class MockExpensesDataSource extends ExpensesDataSource {
     return TotalDayExpensesResponse.fromJson(json);
   }
 
+  @override
+  Future<List<String>> getCategories() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    final data =
+        await rootBundle.loadString('assets/requests/categories_body.json');
+    var json = jsonDecode(data);
+    return Future.value(json.cast<String>());
+  }
+
 }

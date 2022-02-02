@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:wallet_app/calendar/presentation/screens/chosen_date_popup.dart';
+import 'package:wallet_app/profile/presentation/screens/profile_page.dart';
 
 class CalendarScreen extends StatelessWidget {
   const CalendarScreen({Key? key}) : super(key: key);
@@ -10,6 +10,15 @@ class CalendarScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendar'),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ProfilePage())),
+            icon: const Icon(
+              Icons.person_outline,
+            ),
+          ),
+        ],
       ),
       body: CalendarDatePicker(
         firstDate: DateTime(2000, 1, 1),
@@ -26,5 +35,4 @@ class CalendarScreen extends StatelessWidget {
       ),
     );
   }
-
 }
