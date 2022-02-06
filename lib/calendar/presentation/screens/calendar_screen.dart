@@ -15,7 +15,7 @@ class CalendarScreen extends StatelessWidget {
             onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const ProfilePage())),
             icon: const Icon(
-              Icons.person_outline,
+              Icons.settings,
             ),
           ),
         ],
