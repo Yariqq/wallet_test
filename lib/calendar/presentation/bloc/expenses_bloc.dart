@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:wallet_app/calendar/domain/model/category.dart';
 import 'package:wallet_app/calendar/domain/model/total_day_expenses.dart';
 import 'package:wallet_app/calendar/domain/usecase/get_available_categories_usecase.dart';
 import 'package:wallet_app/calendar/domain/usecase/get_one_day_expenses_usecase.dart';
@@ -60,7 +61,7 @@ class ExpensesState extends BaseState<DayExpensesModel> {
 
 class DayExpensesModel {
   final TotalDayExpenses dayExpenses;
-  final List<String> categories;
+  final List<Category> categories;
 
   DayExpensesModel({
     required this.dayExpenses,
@@ -74,7 +75,7 @@ class DayExpensesModel {
 
   DayExpensesModel copyWith({
     TotalDayExpenses? dayExpenses,
-    List<String>? categories,
+    List<Category>? categories,
   }) {
     return DayExpensesModel(
       dayExpenses: dayExpenses ?? this.dayExpenses,

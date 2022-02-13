@@ -183,13 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
-  dio:
-    dependency: transitive
+  dio_http:
+    dependency: "direct main"
     description:
-      name: dio
+      name: dio_http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.4"
+    version: "5.0.4"
   fake_async:
     dependency: transitive
     description:
@@ -397,19 +397,19 @@ packages:
     source: hosted
     version: "3.0.1+1"
   retrofit:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: retrofit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.1.0"
   retrofit_generator:
     dependency: "direct dev"
     description:
       name: retrofit_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.1.0+1"
   shelf:
     dependency: transitive
     description:

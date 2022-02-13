@@ -1,5 +1,14 @@
 [
-  "Food",
-  "Transport",
-  "Entertainment"
+  {
+    "name": "Food",
+    "id": 1
+  },
+  {
+    "name": "Transport",
+    "id": 2
+  },
+  {
+    "name": "Entertainment",
+    "id": 3
+  }
 ]

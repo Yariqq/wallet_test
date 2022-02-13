@@ -32,150 +32,156 @@ class ChosenDatePopup extends StatelessWidget {
                 insetPadding: const EdgeInsets.symmetric(horizontal: 10),
                 content: SizedBox(
                   width: double.maxFinite,
-                  child: state.eventState is SuccessEventState ? Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          DateFormat("dd.MM.yyyy").format(chosenDate),
-                          style: const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
-                        ),
-                        trailing: IconButton(
-                          padding: const EdgeInsets.only(left: 18),
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: TextField(
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(12, 8, 8, 8),
-                            hintText: 'Amount',
-                            hintStyle: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(142, 141, 146, 1),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color.fromRGBO(235, 236, 240, 1),
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color.fromRGBO(235, 236, 240, 1),
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                        ),
-                      ),
-                      ListTile(
-                        title: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                              color: const Color.fromRGBO(235, 236, 240, 1),
-                              width: 1,
-                            ),
-                          ),
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            value: state.data.categories.first,
-                            underline: Container(),
-                            onChanged: (String? newValue) {},
-                            items: state.data.categories
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Center(
-                                  child: Text(value),
+                  child: state.eventState is SuccessEventState
+                      ? Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                DateFormat("dd.MM.yyyy").format(chosenDate),
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
                                 ),
-                              );
-                            }).toList(),
-                          ),
+                              ),
+                              trailing: IconButton(
+                                padding: const EdgeInsets.only(left: 18),
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            ListTile(
+                              title: TextField(
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      const EdgeInsets.fromLTRB(12, 8, 8, 8),
+                                  hintText: 'Amount',
+                                  hintStyle: const TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(142, 141, 146, 1),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromRGBO(235, 236, 240, 1),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromRGBO(235, 236, 240, 1),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              title: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(
+                                    color:
+                                        const Color.fromRGBO(235, 236, 240, 1),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  value: state.data.categories.first.name,
+                                  underline: Container(),
+                                  onChanged: (String? newValue) {},
+                                  items: state.data.categories
+                                      .map((e) => e.name)
+                                      .toList()
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Center(
+                                        child: Text(value),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            MaterialButton(
+                              height: 45,
+                              minWidth: 100,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                side: const BorderSide(
+                                  width: 1.0,
+                                  color: Colors.black26,
+                                ),
+                              ),
+                              onPressed: () {},
+                              child: const Text(
+                                'Add',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            const Divider(
+                              indent: 20,
+                              endIndent: 20,
+                              thickness: 1.5,
+                            ),
+                            ListView.builder(
+                              itemCount: state.data.dayExpenses.expenses.length,
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  leading: const Icon(Icons.category),
+                                  title: Text(state.data.dayExpenses
+                                      .expenses[index].categoryName),
+                                  trailing: Text(state
+                                      .data.dayExpenses.expenses[index].amount
+                                      .toString()),
+                                );
+                              },
+                            ),
+                            const Divider(
+                              indent: 20,
+                              endIndent: 20,
+                              thickness: 1.5,
+                            ),
+                            ListTile(
+                              title: const Text(
+                                'Day limit: 100',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              trailing: Text(
+                                'Day spent: ${state.data.dayExpenses.totalDayAmount.toString()}',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: 100,
+                          alignment: Alignment.center,
+                          child: const CircularProgressIndicator(),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      MaterialButton(
-                        height: 45,
-                        minWidth: 100,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          side: const BorderSide(
-                            width: 1.0,
-                            color: Colors.black26,
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          'Add',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      const Divider(
-                        indent: 20,
-                        endIndent: 20,
-                        thickness: 1.5,
-                      ),
-                      ListView.builder(
-                        itemCount: state.data.dayExpenses.expenses.length,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: const Icon(Icons.category),
-                            title: Text(state.data.dayExpenses
-                                .expenses[index].categoryName),
-                            trailing: Text(state
-                                .data.dayExpenses.expenses[index].amount
-                                .toString()),
-                          );
-                        },
-                      ),
-                      const Divider(
-                        indent: 20,
-                        endIndent: 20,
-                        thickness: 1.5,
-                      ),
-                      ListTile(
-                        title: const Text(
-                          'Day limit: 100',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                        trailing: Text(
-                          'Day spent: ${state.data.dayExpenses.totalDayAmount.toString()}',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ) : Container(
-                    height: 100,
-                    alignment: Alignment.center,
-                    child: const CircularProgressIndicator(),
-                  ),
                 ),
               ),
             ],

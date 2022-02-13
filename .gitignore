@@ -3,6 +3,7 @@
 *.log
 *.pyc
 *.swp
+*.g
 .DS_Store
 .atom/
 .buildlog/
@@ -44,3 +45,13 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# custom
+*.lock
+ios/build
+android/build
+android/app/build
+
+# generic code
+**/*.mocks.dart
+**/*.g.dart
