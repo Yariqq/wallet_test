@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wallet_app/calendar/presentation/screens/chosen_date_popup.dart';
-import 'package:wallet_app/profile/presentation/screens/profile_page.dart';
+import 'package:intl/intl.dart';
+import 'package:wallet_app/calendar/presentation/screens/current_day_data_screen.dart';
+import 'package:wallet_app/settings/presentation/screens/settings_page.dart';
 
 class CalendarScreen extends StatelessWidget {
   const CalendarScreen({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class CalendarScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const ProfilePage())),
+                MaterialPageRoute(builder: (context) => const SettingsPage())),
             icon: const Icon(
               Icons.settings,
             ),
@@ -23,12 +24,12 @@ class CalendarScreen extends StatelessWidget {
       body: CalendarDatePicker(
         firstDate: DateTime(2000, 1, 1),
         onDateChanged: (DateTime chosenDate) {
-          showGeneralDialog(
-            context: context,
-            pageBuilder: (context, anim1, anim2) {
-              return ChosenDatePopup(chosenDate: chosenDate);
-            },
-          );
+          final chosenDateString = DateFormat("dd.MM.yyyy").format(chosenDate);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      CurrentDayDataScreen(chosenDate: chosenDateString)));
         },
         initialDate: DateTime.now(),
         lastDate: DateTime(2100, 1, 1),

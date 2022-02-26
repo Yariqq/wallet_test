@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:wallet_app/calendar/presentation/di/expenses_di.dart';
 import 'package:wallet_app/core/di/environment_module.dart';
 import 'package:wallet_app/core/di/network_module.dart';
+import 'package:wallet_app/settings/presentation/di/settings_module.dart';
 
 import 'core/application.dart';
 
@@ -35,6 +36,7 @@ void main() async {
     ),
     NetworkModule(),
     ExpensesModule(),
+    SettingsModule(),
   ]);
   runApp(const Application());
 }
