@@ -16,9 +16,9 @@ class ExpensesRepositoryImpl extends ExpensesRepository {
       this._expensesDataSource);
 
   @override
-  Future<TotalDayExpenses> getOneDayExpenses() {
+  Future<TotalDayExpenses> getOneDayExpenses(String date) {
     return _expensesDataSource
-        .getExpenses()
+        .getExpenses(date)
         .then((response) => _totalDayExpensesMapper.mapFromBean(response));
   }
 
@@ -27,5 +27,10 @@ class ExpensesRepositoryImpl extends ExpensesRepository {
     return _expensesDataSource
         .getCategories()
         .then((response) => _categoriesMapper.mapFromBean(response));
+  }
+
+  @override
+  Future<void> addExpense(String date, double amount, int categoryId) {
+    return _expensesDataSource.addExpense(date, amount, categoryId);
   }
 }

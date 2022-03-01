@@ -9,6 +9,7 @@ import 'package:wallet_app/calendar/data/source/mock/mock_expenses_data_source.d
 import 'package:wallet_app/calendar/data/source/remote/api/expenses_service_api.dart';
 import 'package:wallet_app/calendar/data/source/remote/remote_expenses_data_source.dart';
 import 'package:wallet_app/calendar/domain/repository/expenses_repository.dart';
+import 'package:wallet_app/calendar/domain/usecase/add_expense_usecase.dart';
 import 'package:wallet_app/calendar/domain/usecase/get_available_categories_usecase.dart';
 import 'package:wallet_app/calendar/domain/usecase/get_one_day_expenses_usecase.dart';
 
@@ -48,5 +49,8 @@ class ExpensesModule extends Module {
     bind<GetAvailableCategoriesUseCase>().toProvide(() =>
         GetAvailableCategoriesUseCase(
             repository: currentScope.resolve<ExpensesRepository>()));
+
+    bind<AddExpenseUseCase>().toProvide(() => AddExpenseUseCase(
+        repository: currentScope.resolve<ExpensesRepository>()));
   }
 }

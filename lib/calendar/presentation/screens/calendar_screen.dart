@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:wallet_app/calendar/presentation/screens/current_day_data_screen.dart';
 import 'package:wallet_app/settings/presentation/screens/settings_page.dart';
 
@@ -24,12 +23,11 @@ class CalendarScreen extends StatelessWidget {
       body: CalendarDatePicker(
         firstDate: DateTime(2000, 1, 1),
         onDateChanged: (DateTime chosenDate) {
-          final chosenDateString = DateFormat("dd.MM.yyyy").format(chosenDate);
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      CurrentDayDataScreen(chosenDate: chosenDateString)));
+                      CurrentDayDataScreen(chosenDate: chosenDate)));
         },
         initialDate: DateTime.now(),
         lastDate: DateTime(2100, 1, 1),

@@ -5,9 +5,9 @@ part 'expense_response.g.dart';
 
 @JsonSerializable()
 class ExpenseResponse {
-  @JsonKey(name: 'category')
+  @JsonKey(name: 'date')
   final String? categoryName;
-  @JsonKey(name: 'amount')
+  @JsonKey(name: 'value')
   final double? amount;
 
   ExpenseResponse(this.categoryName, this.amount);

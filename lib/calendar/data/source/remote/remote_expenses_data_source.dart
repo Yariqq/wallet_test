@@ -1,6 +1,7 @@
 
 import 'package:wallet_app/calendar/data/source/expenses_data_source.dart';
 import 'package:wallet_app/calendar/data/source/remote/api/expenses_service_api.dart';
+import 'package:wallet_app/calendar/data/source/remote/model/add_expense_request_body.dart';
 import 'package:wallet_app/calendar/data/source/remote/model/categories_response.dart';
 import 'package:wallet_app/calendar/data/source/remote/model/total_day_expenses_response.dart';
 
@@ -15,8 +16,19 @@ class RemoteExpensesDataSource extends ExpensesDataSource {
   }
 
   @override
-  Future<TotalDayExpensesResponse> getExpenses() {
-    return expensesServiceApi.getDayExpenses();
+  Future<TotalDayExpensesResponse> getExpenses(String date) {
+    return expensesServiceApi.getDayExpenses(date);
+  }
+
+  @override
+  Future<void> addExpense(String date, double amount, int categoryId) {
+    return expensesServiceApi.addExpense(
+      AddExpenseRequestBody(
+        amount: amount,
+        date: date,
+        categoryId: categoryId,
+      ),
+    );
   }
 
 }

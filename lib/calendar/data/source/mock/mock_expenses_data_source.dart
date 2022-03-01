@@ -7,7 +7,7 @@ import 'package:wallet_app/calendar/data/source/remote/model/total_day_expenses_
 
 class MockExpensesDataSource extends ExpensesDataSource {
   @override
-  Future<TotalDayExpensesResponse> getExpenses() async {
+  Future<TotalDayExpensesResponse> getExpenses(String date) async {
     await Future.delayed(const Duration(milliseconds: 500));
     final data =
         await rootBundle.loadString('assets/requests/expenses_body.json');
@@ -24,5 +24,11 @@ class MockExpensesDataSource extends ExpensesDataSource {
     return (json as List)
         .map((category) => CategoriesResponse.fromJson(category))
         .toList();
+  }
+
+  @override
+  Future<void> addExpense(String date, double amount, int categoryId) {
+    // TODO: implement addExpense
+    throw UnimplementedError();
   }
 }

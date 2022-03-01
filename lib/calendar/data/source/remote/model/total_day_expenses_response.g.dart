@@ -12,12 +12,12 @@ TotalDayExpensesResponse _$TotalDayExpensesResponseFromJson(
       (json['expenses'] as List<dynamic>)
           .map((e) => ExpenseResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['totalDayAmount'] as num?)?.toDouble(),
+      (json['total_amount'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$TotalDayExpensesResponseToJson(
         TotalDayExpensesResponse instance) =>
     <String, dynamic>{
       'expenses': instance.expenses,
-      'totalDayAmount': instance.totalDayAmount,
+      'total_amount': instance.totalDayAmount,
     };

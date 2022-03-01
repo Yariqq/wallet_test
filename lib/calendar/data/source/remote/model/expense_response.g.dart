@@ -8,12 +8,12 @@ part of 'expense_response.dart';
 
 ExpenseResponse _$ExpenseResponseFromJson(Map<String, dynamic> json) =>
     ExpenseResponse(
-      json['category'] as String?,
-      (json['amount'] as num?)?.toDouble(),
+      json['date'] as String?,
+      (json['value'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$ExpenseResponseToJson(ExpenseResponse instance) =>
     <String, dynamic>{
-      'category': instance.categoryName,
-      'amount': instance.amount,
+      'date': instance.categoryName,
+      'value': instance.amount,
     };
