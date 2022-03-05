@@ -2,6 +2,7 @@ import 'package:cherrypick/cherrypick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_app/calendar/presentation/bloc/expenses_bloc.dart';
+import 'package:wallet_app/core/utils/loading_indicator.dart';
 
 class CreateExpenseContent extends StatefulWidget {
   final ExpensesBloc bloc;
@@ -26,10 +27,16 @@ class _CreateExpenseContentState extends State<CreateExpenseContent> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ExpensesBloc, ExpensesState>(
+    return BlocConsumer<ExpensesBloc, ExpensesState>(
       bloc: widget.bloc,
+      listener: (context, state) {
+        if (state.eventState is SuccessAddingExpenseEventState) {
+          Navigator.pop(context);
+          widget.bloc.add(FetchExpensesEvent(date: widget.date.toString()));
+        }
+      },
       builder: (context, state) {
-        if (state.eventState is! LoadingEventState) {
+        if (state.eventState is! BottomSheetLoadingEventState) {
           return Padding(
             padding: EdgeInsets.only(
               left: 16,
@@ -77,27 +84,32 @@ class _CreateExpenseContentState extends State<CreateExpenseContent> {
           );
         }
 
-        return const Center(
-          child: CircularProgressIndicator(),
+        return const SizedBox(
+          height: 150,
+          child: LoadingIndicator(),
         );
       },
     );
   }
 
   Widget _buildDropDownCategoriesField(DayExpensesModel data) {
-    return DropdownButton<String>(
+    return DropdownButton(
+      underline: Container(
+        color: Colors.black,
+        height: 0.45,
+      ),
       isExpanded: true,
-      value: data.chosenCategory.name,
-      onChanged: (String? newValue) {},
+      value: data.chosenCategory,
+      onChanged: (String? newValue) {
+        widget.bloc.add(ChangeCategoryEvent(categoryName: newValue));
+      },
       items: data.categories
           .map((e) => e.name)
           .toList()
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Center(
-            child: Text(value),
-          ),
+          child: Text(value),
         );
       }).toList(),
     );
@@ -114,18 +126,17 @@ class _CreateExpenseContentState extends State<CreateExpenseContent> {
   }
 
   Widget _buildCreateButton(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 16),
       height: 48,
       child: ElevatedButton(
         onPressed: () {
           widget.bloc.add(
-                AddExpenseEvent(
-                  amount: double.parse(_newExpenseController.text),
-                  date: widget.date.toIso8601String().split('T')[0],
-                  categoryId:
-                      widget.bloc.state.data.chosenCategory.id,
-                ),
-              );
+            AddExpenseEvent(
+              amount: double.parse(_newExpenseController.text),
+              date: widget.date.toIso8601String().split('T')[0],
+            ),
+          );
         },
         child: const Center(
           child: Text(

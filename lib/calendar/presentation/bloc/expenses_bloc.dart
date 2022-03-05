@@ -38,7 +38,7 @@ class ExpensesBloc extends Bloc<BaseEvent, ExpensesState> {
       try {
         yield ExpensesState(
           data: state.data.copyWith(),
-          eventState: LoadingEventState(),
+          eventState: BottomSheetLoadingEventState(),
         );
 
         final categories = await _getAvailableCategoriesUseCase.execute(null);
@@ -46,7 +46,7 @@ class ExpensesBloc extends Bloc<BaseEvent, ExpensesState> {
         yield ExpensesState(
           data: state.data.copyWith(
             categories: categories,
-            chosenCategory: categories.first,
+            chosenCategory: categories.first.name,
           ),
           eventState: SuccessEventState(),
         );
@@ -60,21 +60,34 @@ class ExpensesBloc extends Bloc<BaseEvent, ExpensesState> {
           eventState: LoadingEventState(),
         );
 
+        int categoryId = 0;
+
+        for (int i = 0; i < state.data.categories.length; i++) {
+          if (state.data.categories[i].name == state.data.chosenCategory) {
+            categoryId = state.data.categories[i].id;
+          }
+        }
+
         await _addExpenseUseCase.execute(
           AddExpenseUseCaseParams(
             date: event.date,
             amount: event.amount,
-            categoryId: event.categoryId,
+            categoryId: categoryId,
           ),
         );
 
         yield ExpensesState(
           data: state.data.copyWith(),
-          eventState: SuccessEventState(),
+          eventState: SuccessAddingExpenseEventState(),
         );
       } catch (e) {
         yield ExpensesState(data: state.data, eventState: ErrorEventState(e));
       }
+    } else if (event is ChangeCategoryEvent) {
+      yield ExpensesState(
+        data: state.data.copyWith(chosenCategory: event.categoryName),
+        eventState: SuccessEventState(),
+      );
     }
   }
 }
@@ -87,15 +100,19 @@ class FetchExpensesEvent extends BaseEvent {
 
 class FetchCategoriesEvent extends BaseEvent {}
 
+class ChangeCategoryEvent extends BaseEvent {
+  final String? categoryName;
+
+  ChangeCategoryEvent({required this.categoryName});
+}
+
 class AddExpenseEvent extends BaseEvent {
   final double amount;
   final String date;
-  final int categoryId;
 
   AddExpenseEvent({
     required this.amount,
     required this.date,
-    required this.categoryId,
   });
 }
 
@@ -103,7 +120,11 @@ class UnknownEventState extends BaseEventState {}
 
 class LoadingEventState extends BaseEventState {}
 
+class BottomSheetLoadingEventState extends BaseEventState {}
+
 class SuccessEventState extends BaseEventState {}
+
+class SuccessAddingExpenseEventState extends BaseEventState {}
 
 class ErrorEventState extends BaseEventState {
   final Object error;
@@ -112,15 +133,16 @@ class ErrorEventState extends BaseEventState {
 }
 
 class ExpensesState extends BaseState<DayExpensesModel> {
-  ExpensesState(
-      {required DayExpensesModel data, required BaseEventState eventState})
-      : super(data, eventState);
+  ExpensesState({
+    required DayExpensesModel data,
+    required BaseEventState eventState,
+  }) : super(data, eventState);
 }
 
 class DayExpensesModel {
   final TotalDayExpenses dayExpenses;
   final List<Category> categories;
-  final Category chosenCategory;
+  final String chosenCategory;
 
   DayExpensesModel({
     required this.dayExpenses,
@@ -132,14 +154,14 @@ class DayExpensesModel {
     return DayExpensesModel(
       dayExpenses: TotalDayExpenses.empty(),
       categories: [],
-      chosenCategory: Category.empty(),
+      chosenCategory: '',
     );
   }
 
   DayExpensesModel copyWith({
     TotalDayExpenses? dayExpenses,
     List<Category>? categories,
-    Category? chosenCategory,
+    String? chosenCategory,
   }) {
     return DayExpensesModel(
       dayExpenses: dayExpenses ?? this.dayExpenses,

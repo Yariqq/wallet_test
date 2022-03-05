@@ -1,8 +1,10 @@
 import 'package:cherrypick/cherrypick.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_app/calendar/domain/model/category.dart';
 import 'package:wallet_app/calendar/domain/usecase/get_available_categories_usecase.dart';
+import 'package:wallet_app/core/utils/loading_indicator.dart';
 import 'package:wallet_app/settings/domain/usecase/add_category_usecase.dart';
 import 'package:wallet_app/settings/presentation/bloc/settings_bloc.dart';
 
@@ -30,7 +32,13 @@ class _CreateCategoryContentState extends State<CreateCategoryContent> {
         appContainer.resolve<GetAvailableCategoriesUseCase>(),
         appContainer.resolve<AddCategoryUseCase>(),
       )..add(FetchCategoriesEvent()),
-      child: BlocBuilder<SettingsBloc, SettingsState>(
+      child: BlocConsumer<SettingsBloc, SettingsState>(
+        listener: (context, state) {
+          if (state.eventState is AddingCategorySuccessEventState) {
+            Navigator.pop(context);
+            _buildSuccessDialog(context);
+          }
+        },
         builder: (context, state) {
           if (state.eventState is! LoadingEventState) {
             return Padding(
@@ -80,8 +88,9 @@ class _CreateCategoryContentState extends State<CreateCategoryContent> {
             );
           }
 
-          return const Center(
-            child: CircularProgressIndicator(),
+          return const SizedBox(
+            height: 150,
+            child: LoadingIndicator(),
           );
         },
       ),
@@ -98,7 +107,9 @@ class _CreateCategoryContentState extends State<CreateCategoryContent> {
             ),
           )
         : Text(
-            'Available categories: ${availableCategories.map((category) => category.name)}',
+            'Available categories: '
+                '${availableCategories.map((category) => category.name)
+                .toList().join(', ')}',
             style: const TextStyle(
               fontSize: 16,
               color: Colors.grey,
@@ -117,7 +128,8 @@ class _CreateCategoryContentState extends State<CreateCategoryContent> {
   }
 
   Widget _buildCreateButton(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 16),
       height: 48,
       child: ElevatedButton(
         onPressed: () {
@@ -131,6 +143,27 @@ class _CreateCategoryContentState extends State<CreateCategoryContent> {
           ),
         ),
       ),
+    );
+  }
+
+  Future _buildSuccessDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (builderContext) {
+          return CupertinoAlertDialog(
+            title: const Text('Success'),
+            content: const Text('Category added successfully!'),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(builderContext);
+                },
+                child: const Text('Ok'),
+              ),
+            ],
+          );
+        },
     );
   }
 }

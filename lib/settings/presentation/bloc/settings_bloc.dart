@@ -44,7 +44,7 @@ class SettingsBloc extends Bloc<BaseEvent, SettingsState> {
 
         yield SettingsState(
           availableCategories: state.data,
-          eventState: SuccessEventState(),
+          eventState: AddingCategorySuccessEventState(),
         );
       } catch (e) {
         yield SettingsState(
@@ -67,6 +67,8 @@ class UnknownEventState extends BaseEventState {}
 class LoadingEventState extends BaseEventState {}
 
 class SuccessEventState extends BaseEventState {}
+
+class AddingCategorySuccessEventState extends BaseEventState {}
 
 class ErrorEventState extends BaseEventState {
   final Object error;

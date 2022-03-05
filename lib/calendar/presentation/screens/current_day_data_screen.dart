@@ -7,6 +7,8 @@ import 'package:wallet_app/calendar/domain/usecase/get_available_categories_usec
 import 'package:wallet_app/calendar/domain/usecase/get_one_day_expenses_usecase.dart';
 import 'package:wallet_app/calendar/presentation/bloc/expenses_bloc.dart';
 import 'package:wallet_app/calendar/presentation/widgets/create_expense_content.dart';
+import 'package:wallet_app/core/utils/empty_container.dart';
+import 'package:wallet_app/core/utils/loading_indicator.dart';
 
 class CurrentDayDataScreen extends StatelessWidget {
   final DateTime chosenDate;
@@ -21,8 +23,7 @@ class CurrentDayDataScreen extends StatelessWidget {
         appContainer.resolve<GetOneDayExpensesUseCase>(),
         appContainer.resolve<GetAvailableCategoriesUseCase>(),
         appContainer.resolve<AddExpenseUseCase>(),
-      )..add(
-          FetchExpensesEvent(date: chosenDate.toIso8601String().split('T')[0])),
+      )..add(FetchExpensesEvent(date: chosenDate.toString())),
       child: BlocConsumer<ExpensesBloc, ExpensesState>(
         listener: (context, state) {
           if (state.eventState is ErrorEventState) {
@@ -36,52 +37,87 @@ class CurrentDayDataScreen extends StatelessWidget {
                 DateFormat("dd.MM.yyyy").format(chosenDate),
               ),
               actions: [
-                IconButton(
-                  onPressed: () {
-                    _showCreateExpenseBottomSheet(context);
-                  },
-                  icon: const Icon(
-                    Icons.add,
+                if (state.eventState is SuccessEventState)
+                  IconButton(
+                    onPressed: () {
+                      context.read<ExpensesBloc>().add(FetchCategoriesEvent());
+                      _showCreateExpenseBottomSheet(context);
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                    ),
                   ),
-                ),
               ],
             ),
-            body: state.eventState is! LoadingEventState
-                ? state.data.dayExpenses.expenses.isNotEmpty
-                    ? Column(
-                        children: [
-                          ListView.builder(
-                            itemCount: state.data.dayExpenses.expenses.length,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                leading: const Icon(Icons.category),
-                                title: Text(state.data.dayExpenses
-                                    .expenses[index].categoryName),
-                                trailing: Text(state
-                                    .data.dayExpenses.expenses[index].amount
-                                    .toString()),
-                              );
-                            },
-                          ),
-                        ],
-                      )
-                    : const Center(
-                        child: Text('No expenses yet'),
-                      )
-                : const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+            body: state.eventState is LoadingEventState
+                ? const LoadingIndicator()
+                : _buildBody(state.data),
           );
         },
       ),
     );
   }
 
-  void _showCreateExpenseBottomSheet(BuildContext context) {
-    context.read<ExpensesBloc>().add(FetchCategoriesEvent());
+  Widget _buildBody(DayExpensesModel data) {
+    if (data.dayExpenses.expenses.isNotEmpty) {
+      return SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: data.dayExpenses.expenses.length,
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 0.0,
+                      ),
+                      leading: const Icon(Icons.emoji_food_beverage),
+                      title: Text(
+                        data.dayExpenses.expenses[index].categoryName,
+                      ),
+                      trailing: Text(
+                        data.dayExpenses.expenses[index].amount.toString(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const Divider(
+                height: 20,
+                thickness: 1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Total day amount:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    data.dayExpenses.totalDayAmount.toString(),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
+    return const EmptyContainer(message: 'No expenses yet');
+  }
+
+  void _showCreateExpenseBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
