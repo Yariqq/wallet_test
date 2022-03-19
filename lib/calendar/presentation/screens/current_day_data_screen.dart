@@ -74,7 +74,8 @@ class CurrentDayDataScreen extends StatelessWidget {
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 0.0,
                       ),
-                      leading: const Icon(Icons.emoji_food_beverage),
+                      leading: _buildCategoryIcon(
+                          data.dayExpenses.expenses[index].categoryName),
                       title: Text(
                         data.dayExpenses.expenses[index].categoryName,
                       ),
@@ -115,6 +116,21 @@ class CurrentDayDataScreen extends StatelessWidget {
     }
 
     return const EmptyContainer(message: 'No expenses yet');
+  }
+
+  Widget _buildCategoryIcon(String categoryName) {
+    switch (categoryName) {
+      case 'Food':
+        return const Icon(Icons.fastfood_outlined);
+      case 'Transport':
+        return const Icon(Icons.directions_bus_outlined);
+      case 'Purchases/Products':
+        return const Icon(Icons.add_shopping_cart_outlined);
+      case 'Entertainment':
+        return const Icon(Icons.accessibility_new_outlined);
+      default:
+        return const Icon(Icons.not_listed_location_outlined);
+    }
   }
 
   void _showCreateExpenseBottomSheet(BuildContext context) {

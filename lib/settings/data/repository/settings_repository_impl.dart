@@ -12,4 +12,14 @@ class SettingsRepositoryImpl extends SettingsRepository {
     return _settingsDataSource.addCategory(name);
   }
 
+  @override
+  Future<void> deleteCategory(int categoryId) {
+    return _settingsDataSource.deleteCategory(categoryId);
+  }
+
+  @override
+  Future<void> editCategory(int categoryId, String newName) {
+    return _settingsDataSource.editCategory(categoryId, newName);
+  }
+
 }

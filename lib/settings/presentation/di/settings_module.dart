@@ -6,6 +6,8 @@ import 'package:wallet_app/settings/data/source/remote/remote_settings_data_sour
 import 'package:wallet_app/settings/data/source/settings_data_source.dart';
 import 'package:wallet_app/settings/domain/repository/settings_repository.dart';
 import 'package:wallet_app/settings/domain/usecase/add_category_usecase.dart';
+import 'package:wallet_app/settings/domain/usecase/delete_category_usecase.dart';
+import 'package:wallet_app/settings/domain/usecase/edit_category_usecase.dart';
 
 class SettingsModule extends Module {
   @override
@@ -24,6 +26,12 @@ class SettingsModule extends Module {
         SettingsRepositoryImpl(currentScope.resolve<SettingsDataSource>()));
 
     bind<AddCategoryUseCase>().toProvide(() => AddCategoryUseCase(
+        settingsRepository: currentScope.resolve<SettingsRepository>()));
+
+    bind<DeleteCategoryUseCase>().toProvide(() => DeleteCategoryUseCase(
+        settingsRepository: currentScope.resolve<SettingsRepository>()));
+
+    bind<EditCategoryUseCase>().toProvide(() => EditCategoryUseCase(
         settingsRepository: currentScope.resolve<SettingsRepository>()));
   }
 }

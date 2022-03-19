@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wallet_app/settings/presentation/widgets/create_category_content.dart';
+import 'package:wallet_app/settings/presentation/screens/environment_page.dart';
+
+const _requiredEnvironmentTapCounter = 5;
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -11,77 +13,27 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late final TextEditingController _sumController;
-
-  @override
-  void initState() {
-    _sumController = TextEditingController(text: '0,00');
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _sumController.dispose();
-    super.dispose();
-  }
+  int _openEnvironmentTapCounter = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _showCreateCategoryBottomSheet(context);
-                  },
-                  child: const Center(
-                    child: Text(
-                      'Create category',
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+        title: GestureDetector(
+          onTap: () {
+            setState(() => _openEnvironmentTapCounter++);
+            if (_openEnvironmentTapCounter == _requiredEnvironmentTapCounter) {
+              _openEnvironmentTapCounter = 0;
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EnvironmentPage()));
+            }
+          },
+          child: const Text('Settings'),
         ),
       ),
-    );
-  }
-
-  void _showCreateCategoryBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
-        ),
-      ),
-      barrierColor: Colors.black.withOpacity(0.4),
-      builder: (builderContext) {
-        return ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height -
-                MediaQuery.of(context).viewPadding.top,
-          ),
-          child: SingleChildScrollView(
-            child: SafeArea(
-              child: CreateCategoryContent(
-
-              ),
-            ),
-          ),
-        );
-      },
+      body: Container(),
     );
   }
 }

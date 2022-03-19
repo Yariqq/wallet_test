@@ -6,6 +6,8 @@ import 'package:wallet_app/calendar/domain/model/category.dart';
 import 'package:wallet_app/calendar/domain/usecase/get_available_categories_usecase.dart';
 import 'package:wallet_app/core/utils/loading_indicator.dart';
 import 'package:wallet_app/settings/domain/usecase/add_category_usecase.dart';
+import 'package:wallet_app/settings/domain/usecase/delete_category_usecase.dart';
+import 'package:wallet_app/settings/domain/usecase/edit_category_usecase.dart';
 import 'package:wallet_app/settings/presentation/bloc/settings_bloc.dart';
 
 class CreateCategoryContent extends StatefulWidget {
@@ -31,6 +33,8 @@ class _CreateCategoryContentState extends State<CreateCategoryContent> {
       create: (_) => SettingsBloc(
         appContainer.resolve<GetAvailableCategoriesUseCase>(),
         appContainer.resolve<AddCategoryUseCase>(),
+        appContainer.resolve<DeleteCategoryUseCase>(),
+        appContainer.resolve<EditCategoryUseCase>(),
       )..add(FetchCategoriesEvent()),
       child: BlocConsumer<SettingsBloc, SettingsState>(
         listener: (context, state) {
