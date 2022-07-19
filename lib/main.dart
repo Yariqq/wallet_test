@@ -1,14 +1,12 @@
 import 'package:cherrypick/cherrypick.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:wallet_app/calendar/presentation/di/expenses_di.dart';
 import 'package:wallet_app/core/di/environment_module.dart';
 import 'package:wallet_app/core/di/network_module.dart';
-import 'package:wallet_app/settings/presentation/di/settings_module.dart';
 
 import 'core/application.dart';
 
-const isMock = false;
+const isMock = true;
 
 const baseUrl = 'https://moneytracker001.herokuapp.com/';
 
@@ -35,8 +33,7 @@ void main() async {
       sendTimeout: sendTimeout,
     ),
     NetworkModule(),
-    ExpensesModule(),
-    SettingsModule(),
   ]);
+
   runApp(const Application());
 }

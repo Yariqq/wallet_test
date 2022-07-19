@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:wallet_app/calendar/presentation/screens/calendar_screen.dart';
+import '../hackathon_directory/soft_skills/presentation/pages/soft_skills_page.dart';
 
 class Application extends StatelessWidget {
   const Application({Key? key}) : super(key: key);
@@ -12,8 +11,7 @@ class Application extends StatelessWidget {
         primarySwatch: Colors.red,
         fontFamily: 'Futura',
       ),
-      home: const CalendarScreen(),
+      home: const SoftSkillsPage(),
     );
   }
-
 }
