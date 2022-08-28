@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../hackathon_directory/soft_skills/presentation/pages/soft_skills_page.dart';
+import 'package:wallet_app/hackathon_directory/registration/presentation/registration_page.dart';
 
 class Application extends StatelessWidget {
   const Application({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class Application extends StatelessWidget {
         primarySwatch: Colors.red,
         fontFamily: 'Futura',
       ),
-      home: const SoftSkillsPage(),
+      home: RegistrationPage(),
     );
   }
 }

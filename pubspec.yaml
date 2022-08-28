@@ -22,6 +22,9 @@ dependencies:
   loader_overlay: 2.0.4+3
   table_calendar: ^3.0.3
   retrofit: 2.1.0
+  flutter_svg: ^1.1.1+1
+  flutter_rating_bar: ^4.0.1
+  syncfusion_flutter_datepicker: ^20.2.39
 
 dev_dependencies:
   flutter_test:
@@ -38,5 +41,6 @@ flutter:
         - asset: assets/fonts/Futura.ttf
 
   assets:
+    - assets/icons/
     - assets/requests/expenses_body.json
     - assets/requests/categories_body.json

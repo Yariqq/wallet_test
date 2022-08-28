@@ -1,23 +1,33 @@
 import 'package:wallet_app/hackathon_directory/soft_skills/data/mappers/soft_skills_mapper.dart';
-import 'package:wallet_app/hackathon_directory/soft_skills/data/source/soft_skills_data_source.dart';
-import 'package:wallet_app/hackathon_directory/soft_skills/domain/entity/soft_skill.dart';
+import 'package:wallet_app/hackathon_directory/soft_skills/data/mappers/candidate_mapper.dart';
+import 'package:wallet_app/hackathon_directory/soft_skills/data/source/remote/api/soft_skills_api.dart';
+import 'package:wallet_app/hackathon_directory/soft_skills/domain/entity/recruiter.dart';
 import 'package:wallet_app/hackathon_directory/soft_skills/domain/gateway/soft_skills_gateway.dart';
 
+import '../../domain/entity/candidate.dart';
+
 class SoftSkillsGatewayImpl extends SoftSkillsGateway {
-  final SoftSkillsDataSource softSkillsDataSource;
+  final SoftSkillsApi softSkillsApi;
   final SoftSkillsMapper softSkillsMapper;
+  final CandidateMapper userMapper;
 
   const SoftSkillsGatewayImpl({
-    required this.softSkillsDataSource,
+    required this.softSkillsApi,
     required this.softSkillsMapper,
+    required this.userMapper,
   });
 
   @override
-  Future<List<SoftSkill>> getSoftSkills() async {
-    final response = await softSkillsDataSource.getSoftSkills();
+  Future<List<Recruiter>> getRecruiters() async {
+    final response = await softSkillsApi.getRecruiters();
 
-    return response
-        .map((responseItem) => softSkillsMapper.mapFromBean(responseItem))
-        .toList();
+    return response.map((e) => softSkillsMapper.mapFromBean(e)).toList();
+  }
+
+  @override
+  Future<Candidate> getUser() async {
+    final response = await softSkillsApi.getUser();
+
+    return userMapper.mapFromBean(response);
   }
 }

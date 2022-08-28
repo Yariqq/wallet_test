@@ -1,17 +1,26 @@
 import 'package:wallet_app/core/mappers/mapper.dart';
 import 'package:wallet_app/hackathon_directory/soft_skills/data/source/remote/models/soft_skill_response.dart';
-import 'package:wallet_app/hackathon_directory/soft_skills/domain/entity/soft_skill.dart';
+import 'package:wallet_app/hackathon_directory/soft_skills/domain/entity/recruiter.dart';
 
-class SoftSkillsMapper extends Mapper<SoftSkill, SoftSkillResponse> {
+class SoftSkillsMapper extends Mapper<Recruiter, SoftSkillResponse> {
   @override
-  SoftSkill mapFromBean(SoftSkillResponse src) {
-    return SoftSkill(
-      name: src.name ?? '',
+  Recruiter mapFromBean(SoftSkillResponse src) {
+    return Recruiter(
+      firstName: src.firstName ?? '',
+      lastName: src.lastName ?? '',
+      experience: src.experience ?? 0,
+      description: src.description ?? '',
+      rating: src.rating ?? 0.0,
+      position: src.position ?? '',
+      interviewCount: src.interviewCount ?? 0,
+      blackoutDates:
+          src.blackoutDates?.map((e) => DateTime.parse(e)).toList() ?? [],
+      rate: src.rate ?? 0.0,
     );
   }
 
   @override
-  SoftSkillResponse mapToBean(SoftSkill src) {
+  SoftSkillResponse mapToBean(Recruiter src) {
     // TODO: implement mapToBean
     throw UnimplementedError();
   }

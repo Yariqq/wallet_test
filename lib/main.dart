@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:wallet_app/core/di/environment_module.dart';
 import 'package:wallet_app/core/di/network_module.dart';
+import 'package:wallet_app/hackathon_directory/registration/presentation/di/registration_module.dart';
 
 import 'core/application.dart';
+import 'hackathon_directory/soft_skills/presentation/di/soft_skills_module.dart';
 
 const isMock = true;
 
-const baseUrl = 'https://moneytracker001.herokuapp.com/';
+const baseUrl = 'http://172.104.131.215:8000/';
 
 const connectionTimeout = 60000;
 
@@ -33,6 +35,8 @@ void main() async {
       sendTimeout: sendTimeout,
     ),
     NetworkModule(),
+    RegistrationModule(),
+    SoftSkillsModule(),
   ]);
 
   runApp(const Application());
